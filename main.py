@@ -25,4 +25,7 @@ class MinOpponentMoves(ExampleEngine):
             elif count == min_count:
                 min_moves.append(move)
         chosen_move = random.choice(min_moves) if min_moves else None
-        return PlayResult(chosen_move, None)
+        if chosen_move:
+            return PlayResult(chosen_move, None)
+        # Resign if we are stuck
+        return PlayResult(resigned=True)
