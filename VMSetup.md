@@ -1,3 +1,9 @@
+## NOTE
+
+Turns out you can't actually run both bots from the same VM for some reason. Wrote this all up before I knew that.
+
+## VM Creation command
+
 ```
 gcloud compute instances create instance-20240317-044435 \
     --project=greg-finley \
