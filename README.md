@@ -1,12 +1,13 @@
 # lichess-bot-min-opponent-moves
 
-## TODO: Link to Lichess bot
+## Play against the bots / read more
 
-## TODO: Context about Tom7 video
+https://lichess.org/@/MinOpponentMoves
+https://lichess.org/@/AlphaBotical
 
 ## Usage
 
-Manually paste `MinOpponentMoves` into `homemade.py` in the [Lichess bot repo](https://github.com/lichess-bot-devs/lichess-bot) and follow the instructions in the README.
+Manually paste `MinOpponentMoves` into `homemade.py` in the [Lichess bot repo](https://github.com/lichess-bot-devs/lichess-bot) and follow the instructions in the README. `VMSetup.md` has more info about what I did to get it running.
 
 ## Testing
 
