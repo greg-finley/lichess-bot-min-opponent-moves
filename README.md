@@ -3,6 +3,7 @@
 ## Play against the bots / read more
 
 https://lichess.org/@/MinOpponentMoves
+
 https://lichess.org/@/AlphaBotical
 
 ## Usage
