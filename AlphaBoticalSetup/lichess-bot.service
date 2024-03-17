@@ -1,0 +1,15 @@
+[Unit]
+Description=lichess-bot
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Environment="PYTHONUNBUFFERED=1"
+ExecStart=/home/gregoryfinley/lichess-bot/venv/bin/python3 /home/gregoryfinley/lichess-bot/lichess-bot.py
+WorkingDirectory=/home/gregoryfinley/lichess-bot/
+User=gregoryfinley
+Group=gregoryfinley
+Restart=always
+
+[Install]
+WantedBy=multi-user.target
