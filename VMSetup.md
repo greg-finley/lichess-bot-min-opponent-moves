@@ -24,6 +24,7 @@ sudo apt-get install git-all python3-pip python3-venv -y
 git clone https://github.com/lichess-bot-devs/lichess-bot.git
 cd lichess-bot/
 python3 -m venv venv
+./venv/bin/python3 -m pip install -r requirements.txt
 ```
 
 Put config from this repo to `config.yml` (put in API key from 1Password)
@@ -42,6 +43,8 @@ sudo systemctl status lichess-bot.service
 cd ~
 git clone https://github.com/lichess-bot-devs/lichess-bot.git lichess-bot-min-opponent-moves
 cd lichess-bot-min-opponent-moves
+python3 -m venv venv
+./venv/bin/python3 -m pip install -r requirements.txt
 ```
 
 Put config from this repo to `config.yml` (put in API key from 1Password)
