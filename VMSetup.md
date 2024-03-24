@@ -41,6 +41,7 @@ sudo systemctl daemon-reload
 sudo systemctl enable lichess-bot.service
 sudo systemctl start lichess-bot.service
 sudo systemctl status lichess-bot.service
+sudo systemctl stop lichess-bot.service
 ```
 
 ## MinOpponentMoves

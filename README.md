@@ -6,6 +6,8 @@ https://lichess.org/@/MinOpponentMoves
 
 https://lichess.org/@/AlphaBotical
 
+https://lichess.org/@/HalfStockfishBot
+
 ## Usage
 
 Manually paste `MinOpponentMoves` into `homemade.py` in the [Lichess bot repo](https://github.com/lichess-bot-devs/lichess-bot) and follow the instructions in the README. `VMSetup.md` has more info about what I did to get it running.
