@@ -44,6 +44,6 @@ class HalfStockfish(ExampleEngine):
         draw_offered: bool,
         root_moves: MOVE,
     ) -> chess.engine.PlayResult:
-        if random.random() < 0.5:
+        if board.fullmove_number == 1 or random.random() < 0.5:
             return PlayResult(random.choice(list(board.legal_moves)), None)
         return self.engine.play(board, time_limit)
