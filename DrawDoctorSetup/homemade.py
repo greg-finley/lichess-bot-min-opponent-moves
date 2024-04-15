@@ -31,7 +31,7 @@ class DrawDoctor(ExampleEngine):
         **popen_args: str,
     ):
         super().__init__(commands, options, stderr, draw_or_resign, game, **popen_args)
-        self.stockfish = chess.engine.SimpleEngine.popen_uci("./TEMP/sf")
+        self.stockfish = chess.engine.SimpleEngine.popen_uci("../lichess-bot/TEMP/sf")
         self.minimal_drawishness = 10  # centipawns
 
     def evaluate(self, board, timeLimit=0.1):

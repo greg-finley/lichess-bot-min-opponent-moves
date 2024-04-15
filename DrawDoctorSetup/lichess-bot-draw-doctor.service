@@ -1,0 +1,15 @@
+[Unit]
+Description=lichess-bot-draw-doctor
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Environment="PYTHONUNBUFFERED=1"
+ExecStart=/home/gregoryfinley/lichess-bot-draw-doctor/venv/bin/python3 /home/gregoryfinley/lichess-bot-draw-doctor/lichess-bot.py
+WorkingDirectory=/home/gregoryfinley/lichess-bot-draw-doctor/
+User=gregoryfinley
+Group=gregoryfinley
+Restart=always
+
+[Install]
+WantedBy=multi-user.target

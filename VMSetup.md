@@ -64,3 +64,23 @@ sudo systemctl enable lichess-bot-min-opponent-moves.service
 sudo systemctl start lichess-bot-min-opponent-moves.service
 sudo systemctl status lichess-bot-min-opponent-moves.service
 ```
+
+## DrawDoctor
+
+```shell
+cd ~
+git clone https://github.com/lichess-bot-devs/lichess-bot.git lichess-bot-draw-doctor
+cd lichess-bot-draw-doctor
+python3 -m venv venv
+./venv/bin/python3 -m pip install -r requirements.txt
+```
+
+Put systemd service file in to `/etc/systemd/system/lichess-bot-draw-doctor.service`
+
+```shell
+sudo systemctl daemon-reload
+sudo systemctl enable lichess-bot-draw-doctor.service
+sudo systemctl start lichess-bot-draw-doctor.service
+sudo systemctl status lichess-bot-draw-doctor.service
+sudo systemctl stop lichess-bot-draw-doctor.service
+```
