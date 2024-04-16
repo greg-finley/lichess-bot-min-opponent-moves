@@ -63,6 +63,7 @@ sudo systemctl daemon-reload
 sudo systemctl enable lichess-bot-min-opponent-moves.service
 sudo systemctl start lichess-bot-min-opponent-moves.service
 sudo systemctl status lichess-bot-min-opponent-moves.service
+sudo systemctl stop lichess-bot-min-opponent-moves.service
 ```
 
 ## DrawDoctor
