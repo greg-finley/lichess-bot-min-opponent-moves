@@ -20,7 +20,7 @@ class MateCheckCapture(ExampleEngine):
             if board.is_capture(move):
                 capturing_moves.append(move)
             board.push(move)
-            if board.is_checkmate():
+            if board.is_checkmate() or board.is_variant_loss():
                 checkmating_moves.append(move)
             elif board.is_check():
                 checking_moves.append(move)

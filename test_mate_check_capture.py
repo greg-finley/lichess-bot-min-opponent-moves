@@ -1,4 +1,5 @@
 import chess
+import chess.variant
 import pytest
 from mate_check_capture import MateCheckCapture
 
@@ -60,3 +61,13 @@ def test_play_random(execution_number, engine):
     board = chess.Board("KR6/BR6/8/8/8/8/1ppppppp/bkbbbbbb b - - 0 1")
     move = engine.search(board).move
     assert move.uci() == "b1a2"
+
+
+@pytest.mark.parametrize("execution_number", range(100))
+def test_variant_checkmate(execution_number, engine):
+    """Should play a winning move in a variant game"""
+    board = chess.variant.KingOfTheHillBoard("7k/5B2/5PP1/3NPN2/3Q1N2/3QK3/8/8 w - - 0 1")
+    move = engine.search(board).move
+    assert move.uci() == "e3e4"
+    board.push(move)
+    assert board.is_variant_loss()
