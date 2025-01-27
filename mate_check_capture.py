@@ -26,12 +26,15 @@ class MateCheckCapture(ExampleEngine):
                 checking_moves.append(move)
             else:
                 move_uci = move.uci()
-                is_going_upboard = int(move_uci[1]) > int(move_uci[3])
-                is_going_downboard = int(move_uci[1]) < int(move_uci[3])
-                if board.turn == chess.WHITE and is_going_upboard:
-                    advancing_moves.append(move)
-                elif board.turn == chess.BLACK and is_going_downboard:
-                    advancing_moves.append(move)
+                if "@" not in move_uci:
+                    is_going_upboard = int(move_uci[1]) > int(move_uci[3])
+                    is_going_downboard = int(move_uci[1]) < int(move_uci[3])
+                    if board.turn == chess.WHITE and is_going_upboard:
+                        advancing_moves.append(move)
+                    elif board.turn == chess.BLACK and is_going_downboard:
+                        advancing_moves.append(move)
+                    else:
+                        random_moves.append(move)
                 else:
                     random_moves.append(move)
             board.pop()

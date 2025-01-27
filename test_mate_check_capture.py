@@ -71,3 +71,11 @@ def test_variant_checkmate(execution_number, engine):
     assert move.uci() == "e3e4"
     board.push(move)
     assert board.is_variant_loss()
+
+
+@pytest.mark.parametrize("execution_number", range(100))
+def test_crazyhouse_placement(execution_number, engine):
+    """Should play a valid move in crazyhouse if a drop is available"""
+    board = chess.variant.CrazyhouseBoard("r1bq1bnr/2pppkpp/ppn5/8/8/3BP3/PPPP1PPP/RNBQK2R/Pn b KQ - 1 5")
+    move = engine.search(board).move
+    assert move.uci() == "N@f3"
