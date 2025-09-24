@@ -1,4 +1,5 @@
 import chess
+import chess.variant
 import pytest
 from tired_pieces import TiredPieces
 
@@ -81,3 +82,22 @@ def test_multiple_pieces_tracking(execution_number):
     # One piece should have count=2, the other count=1
     counts = sorted(white_engine.piece_moves.values())
     assert counts == [1, 2]
+
+
+@pytest.mark.parametrize("execution_number", range(10))
+def test_crazyhouse_prioritizes_drops(execution_number):
+    """Should always drop pieces in crazyhouse, regardless of piece tiredness"""
+    engine = TiredPieces()
+
+    # Crazyhouse position with pieces in pocket (two pawns for white)
+    # Even if king/pawn are fresh, we should still drop
+    board = chess.variant.CrazyhouseBoard("k7/3p4/8/8/8/8/6P1/K7[PP] w - - 0 1")
+
+    # Make a move - should be a drop
+    move = engine.search(board).move
+    assert move.drop, "Should have dropped a piece from pocket"
+    assert move.uci().startswith("P@"), "Should drop a pawn"
+
+    # After drop, piece should have count 1
+    assert len(engine.piece_moves) == 1
+    assert engine.piece_moves[move.to_square] == 1
