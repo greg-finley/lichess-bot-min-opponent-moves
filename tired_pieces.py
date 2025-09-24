@@ -15,9 +15,8 @@ class TiredPieces(ExampleEngine):
 
     def search(self, board: chess.Board, *args: Any) -> PlayResult:
         """Move pieces in order of least moved first - pieces get tired!"""
-        # Get all legal moves and their from_squares
+        # Get all legal moves
         legal_moves = list(board.legal_moves)
-        from_squares = {move.from_square for move in legal_moves}
 
         # Categorize moves by how many times the piece has moved
         moves_by_tiredness = {}
