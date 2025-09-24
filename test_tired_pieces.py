@@ -8,7 +8,8 @@ def engine():
     return TiredPieces()
 
 
-def test_piece_moves_tracking(engine):
+@pytest.mark.parametrize("execution_number", range(10))
+def test_piece_moves_tracking(execution_number, engine):
     """Should track moved pieces in piece_moves dict"""
     # Start with standard position
     board = chess.Board()
@@ -27,7 +28,8 @@ def test_piece_moves_tracking(engine):
     assert engine.piece_moves[move.to_square] == 1
 
 
-def test_multiple_pieces_tracking():
+@pytest.mark.parametrize("execution_number", range(10))
+def test_multiple_pieces_tracking(execution_number):
     """Should track multiple pieces as they move"""
     # Create separate engines for each side
     white_engine = TiredPieces()
