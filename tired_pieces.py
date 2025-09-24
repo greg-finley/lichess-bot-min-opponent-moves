@@ -9,7 +9,8 @@ class ExampleEngine:
 
 
 class TiredPieces(ExampleEngine):
-    def __init__(self):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
         # Dict mapping square to move count
         self.piece_moves: Dict[chess.Square, int] = {}
 
