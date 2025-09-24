@@ -18,37 +18,49 @@ class TiredPieces(ExampleEngine):
         # Get all legal moves
         legal_moves = list(board.legal_moves)
 
-        # Find moves with minimum tiredness
+        # Find moves with minimum tiredness and collect drops
+        drops = []
         min_moves = []
         min_tiredness = 9999
 
         for move in legal_moves:
-            from_square = move.from_square
+            # Drops get priority
+            if move.drop:
+                drops.append(move)
+            else:
+                from_square = move.from_square
 
-            # Get move count for this square (0 if never moved)
-            move_count = self.piece_moves.get(from_square, 0)
+                # Get move count for this square (0 if never moved)
+                move_count = self.piece_moves.get(from_square, 0)
 
-            # Update min_moves list
-            if move_count < min_tiredness:
-                min_moves = [move]
-                min_tiredness = move_count
-            elif move_count == min_tiredness:
-                min_moves.append(move)
+                # Update min_moves list
+                if move_count < min_tiredness:
+                    min_moves = [move]
+                    min_tiredness = move_count
+                elif move_count == min_tiredness:
+                    min_moves.append(move)
 
-        # Pick a random move from the least tired pieces
-        chosen_move = random.choice(min_moves) if min_moves else None
-        if not chosen_move:
-            return PlayResult(resigned=True)
+        # Choose move: drops first, then least tired pieces
+        if drops:
+            chosen_move = random.choice(drops)
+            min_tiredness = 0  # Drops count as fresh pieces
+        else:
+            chosen_move = random.choice(min_moves) if min_moves else None
+            if not chosen_move:
+                return PlayResult(resigned=True)
 
         # Update piece_moves dict
-        from_square = chosen_move.from_square
         to_square = chosen_move.to_square
 
-        # Remove the old position if it exists
-        if from_square in self.piece_moves:
-            del self.piece_moves[from_square]
-
-        # Add the new position with incremented count
-        self.piece_moves[to_square] = min_tiredness + 1
+        if chosen_move.drop:
+            # Drops are fresh pieces with count 1
+            self.piece_moves[to_square] = 1
+        else:
+            from_square = chosen_move.from_square
+            # Remove the old position if it exists
+            if from_square in self.piece_moves:
+                del self.piece_moves[from_square]
+            # Add the new position with incremented count
+            self.piece_moves[to_square] = min_tiredness + 1
 
         return PlayResult(chosen_move, None)
