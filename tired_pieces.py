@@ -18,8 +18,9 @@ class TiredPieces(ExampleEngine):
         # Get all legal moves
         legal_moves = list(board.legal_moves)
 
-        # Categorize moves by how many times the piece has moved
-        moves_by_tiredness = {}
+        # Find moves with minimum tiredness
+        min_moves = []
+        min_tiredness = 9999
 
         for move in legal_moves:
             from_square = move.from_square
@@ -31,17 +32,17 @@ class TiredPieces(ExampleEngine):
                     move_count = count
                     break
 
-            # Group moves by tiredness level
-            if move_count not in moves_by_tiredness:
-                moves_by_tiredness[move_count] = []
-            moves_by_tiredness[move_count].append(move)
-
-        # Find the least tired pieces (lowest move count)
-        min_tiredness = min(moves_by_tiredness.keys())
-        eligible_moves = moves_by_tiredness[min_tiredness]
+            # Update min_moves list
+            if move_count < min_tiredness:
+                min_moves = [move]
+                min_tiredness = move_count
+            elif move_count == min_tiredness:
+                min_moves.append(move)
 
         # Pick a random move from the least tired pieces
-        chosen_move = random.choice(eligible_moves)
+        chosen_move = random.choice(min_moves) if min_moves else None
+        if not chosen_move:
+            return PlayResult(resigned=True)
 
         # Update piece_moves list
         from_square = chosen_move.from_square
@@ -50,14 +51,7 @@ class TiredPieces(ExampleEngine):
         # Remove the old entry if it exists
         self.piece_moves = [(s, c) for s, c in self.piece_moves if s != from_square]
 
-        # Find current count for this piece
-        current_count = 0
-        for move_count in moves_by_tiredness:
-            if chosen_move in moves_by_tiredness[move_count]:
-                current_count = move_count
-                break
-
         # Add the new position with incremented count
-        self.piece_moves.append((to_square, current_count + 1))
+        self.piece_moves.append((to_square, min_tiredness + 1))
 
         return PlayResult(chosen_move, None)
