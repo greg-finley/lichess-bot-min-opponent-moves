@@ -2,6 +2,8 @@ import chess
 import pytest
 from tired_pieces import TiredPieces
 
+# NOTE: This library treats castling as a king move, like moving from e1 to g1.
+
 
 @pytest.fixture(autouse=True)
 def engine():
