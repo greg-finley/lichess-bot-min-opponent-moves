@@ -4,7 +4,6 @@ import pytest
 from tired_pieces import TiredPieces
 
 # NOTE: This library treats castling as a king move, like moving from e1 to g1.
-# TODO: Ensure that atomic works. If the least tired piece can only move to explode itself, it should still do that.
 
 
 @pytest.fixture(autouse=True)
@@ -101,3 +100,27 @@ def test_crazyhouse_prioritizes_drops(execution_number):
     # After drop, piece should have count 1
     assert len(engine.piece_moves) == 1
     assert engine.piece_moves[move.to_square] == 1
+
+
+@pytest.mark.parametrize("execution_number", range(10))
+def test_atomic_fresh_piece_wins(execution_number):
+    """In atomic, should play the fresh knight even if it explodes, since it's checkmate"""
+    engine = TiredPieces()
+
+    # Atomic position - knight on a6 is fresh, other pieces are tired
+    board = chess.variant.AtomicBoard("1Bk5/2p5/N7/2K5/1B6/8/8/8 w - - 0 1")
+
+    # Manually set up tired pieces (king and bishops have moved, knight hasn't)
+    engine.piece_moves[chess.C5] = 3  # King has moved 3 times
+    engine.piece_moves[chess.B8] = 2  # Bishop has moved 2 times
+    engine.piece_moves[chess.B4] = 2  # Bishop has moved 2 times
+    # Knight on a6 is not in the dict, so it has 0 moves
+
+    # Should play Nxc7 because knight is freshest
+    move = engine.search(board).move
+    assert move.uci() == "a6c7", f"Should play Nxc7 for mate, got {move.uci()}"
+
+    # Verify it's actually mate (king exploded)
+    board.push(move)
+    assert board.is_variant_loss()
+    assert board.is_game_over()
