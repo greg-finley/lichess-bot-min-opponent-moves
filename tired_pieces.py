@@ -1,6 +1,6 @@
 import chess
 from chess.engine import PlayResult
-from typing import Any, List, Tuple
+from typing import Any, Dict
 import random
 
 
@@ -10,8 +10,8 @@ class ExampleEngine:
 
 class TiredPieces(ExampleEngine):
     def __init__(self):
-        # List of tuples: (square, move_count)
-        self.piece_moves: List[Tuple[chess.Square, int]] = []
+        # Dict mapping square to move count
+        self.piece_moves: Dict[chess.Square, int] = {}
 
     def search(self, board: chess.Board, *args: Any) -> PlayResult:
         """Move pieces in order of least moved first - pieces get tired!"""
@@ -25,12 +25,8 @@ class TiredPieces(ExampleEngine):
         for move in legal_moves:
             from_square = move.from_square
 
-            # Find move count for this square
-            move_count = 0
-            for square, count in self.piece_moves:
-                if square == from_square:
-                    move_count = count
-                    break
+            # Get move count for this square (0 if never moved)
+            move_count = self.piece_moves.get(from_square, 0)
 
             # Update min_moves list
             if move_count < min_tiredness:
@@ -44,14 +40,15 @@ class TiredPieces(ExampleEngine):
         if not chosen_move:
             return PlayResult(resigned=True)
 
-        # Update piece_moves list
+        # Update piece_moves dict
         from_square = chosen_move.from_square
         to_square = chosen_move.to_square
 
-        # Remove the old entry if it exists
-        self.piece_moves = [(s, c) for s, c in self.piece_moves if s != from_square]
+        # Remove the old position if it exists
+        if from_square in self.piece_moves:
+            del self.piece_moves[from_square]
 
         # Add the new position with incremented count
-        self.piece_moves.append((to_square, min_tiredness + 1))
+        self.piece_moves[to_square] = min_tiredness + 1
 
         return PlayResult(chosen_move, None)
