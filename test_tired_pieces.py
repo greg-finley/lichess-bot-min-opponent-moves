@@ -3,6 +3,7 @@ import pytest
 from tired_pieces import TiredPieces
 
 # NOTE: This library treats castling as a king move, like moving from e1 to g1.
+# TODO: Ensure that atomic works. If the least tired piece can only move to explode itself, it should still do that.
 
 
 @pytest.fixture(autouse=True)
