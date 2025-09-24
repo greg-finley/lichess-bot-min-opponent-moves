@@ -66,3 +66,17 @@ def test_multiple_pieces_tracking(execution_number):
     assert move3.from_square != move1.to_square
     assert len(white_engine.piece_moves) == 2
     assert white_engine.piece_moves[move3.to_square] == 1
+
+    # Black's second move
+    move4 = black_engine.search(board).move
+    board.push(move4)
+
+    # White's third move - both pieces have moved once, so should pick randomly
+    move5 = white_engine.search(board).move
+    board.push(move5)
+
+    # Should still have 2 entries, one with count=2
+    assert len(white_engine.piece_moves) == 2
+    # One piece should have count=2, the other count=1
+    counts = sorted(white_engine.piece_moves.values())
+    assert counts == [1, 2]
